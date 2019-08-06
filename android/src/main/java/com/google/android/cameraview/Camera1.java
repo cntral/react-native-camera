@@ -563,6 +563,11 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
+    public String getCameraParameters() {
+        return mCameraParameters.flatten();
+    }
+
+    @Override
     int getCameraOrientation() {
         return mCameraInfo.orientation;
     }

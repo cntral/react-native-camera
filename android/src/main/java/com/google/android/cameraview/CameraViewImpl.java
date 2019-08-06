@@ -99,6 +99,8 @@ abstract class CameraViewImpl {
 
     abstract float getFocusDepth();
 
+    abstract String getCameraParameters();
+
     abstract void setZoom(float zoom);
 
     abstract float getZoom();
