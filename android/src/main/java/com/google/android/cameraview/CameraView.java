@@ -512,6 +512,8 @@ public class CameraView extends FrameLayout {
 
     public float getFocusDepth() { return mImpl.getFocusDepth(); }
 
+    public String getCameraParameters() { return mImpl.getCameraParameters(); }
+
     public void setZoom(float zoom) {
       mImpl.setZoom(zoom);
     }

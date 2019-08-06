@@ -370,6 +370,11 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
     }
 
     @Override
+    public String getCameraParameters() {
+        return "Not supported";
+    }
+
+    @Override
     void setPictureSize(Size size) {
         if (mCaptureSession != null) {
             try {
