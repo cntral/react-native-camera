@@ -509,7 +509,10 @@ export default class Camera extends React.Component<PropsType, StateType> {
   };
 
   async getCameraParameters() {
-    return await CameraManager.getCameraParameters(this._cameraHandle);
+    const cameraParametersString = await CameraManager.getCameraParameters(this._cameraHandle)
+    const cameraParametersArray = cameraParametersString.split(';');
+    const cameraParametersDictionary = cameraParametersArray.map( param => ( param.split('=') ) )
+    return Object.fromEntries(cameraParametersDictionary);
   }
 
   async recordAsync(options?: RecordingOptions) {
