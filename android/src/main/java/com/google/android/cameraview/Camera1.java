@@ -452,11 +452,14 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         }
         if (getAutoFocus()) {
             mCamera.cancelAutoFocus();
-            mCamera.autoFocus(new Camera.AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(boolean success, Camera camera) {
+            // The commented out code is from github.com/google/cameraview written 3 years ago.
+            // Commenting this out seems to fix autoFocusPointOfInterest actually being captured when the picture is taken.
+            // It also makes the camera behave closer to the native camera, where instead of refocusing on capture it just captures what's in the preview.
+            // mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                // @Override
+                // public void onAutoFocus(boolean success, Camera camera) {
                     takePictureInternal(options);
-                }
+                // }
             });
         } else {
             takePictureInternal(options);
