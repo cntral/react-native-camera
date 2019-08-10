@@ -460,7 +460,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                 // public void onAutoFocus(boolean success, Camera camera) {
                     takePictureInternal(options);
                 // }
-            });
+            // });
         } else {
             takePictureInternal(options);
         }
