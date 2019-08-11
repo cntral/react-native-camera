@@ -68,7 +68,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     private static final int FOCUS_AREA_SIZE_DEFAULT = 300;
     private static final int FOCUS_METERING_AREA_WEIGHT_DEFAULT = 1000;
-    private static final int DELAY_MILLIS_BEFORE_RESETTING_FOCUS = 10000;
+    private static final int DELAY_MILLIS_BEFORE_RESETTING_FOCUS = 30000;
 
     private Handler mHandler = new Handler();
 
