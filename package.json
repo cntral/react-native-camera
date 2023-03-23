@@ -25,6 +25,7 @@
     "@types/react-native": "^0.57.41",
     "babel-eslint": "^8.2.6",
     "commitizen": "^3.0.4",
+    "deprecated-react-native-prop-types": "*",
     "eslint": "^5.3.0",
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-import": "^2.13.0",

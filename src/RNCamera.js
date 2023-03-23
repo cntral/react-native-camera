@@ -5,7 +5,6 @@ import {
   findNodeHandle,
   Platform,
   NativeModules,
-  ViewPropTypes,
   requireNativeComponent,
   View,
   ActivityIndicator,
@@ -13,7 +12,7 @@ import {
   StyleSheet,
   PermissionsAndroid,
 } from 'react-native';
-
+import ViewPropTypes from 'deprecated-react-native-prop-types';
 import type { FaceFeature } from './FaceDetector';
 
 const Rationale = PropTypes.shape({
@@ -509,9 +508,9 @@ export default class Camera extends React.Component<PropsType, StateType> {
   };
 
   async getCameraParameters() {
-    const cameraParametersString = await CameraManager.getCameraParameters(this._cameraHandle)
+    const cameraParametersString = await CameraManager.getCameraParameters(this._cameraHandle);
     const cameraParametersArray = cameraParametersString.split(';');
-    const cameraParametersDictionary = cameraParametersArray.map( param => ( param.split('=') ) )
+    const cameraParametersDictionary = cameraParametersArray.map(param => param.split('='));
     return Object.fromEntries(cameraParametersDictionary);
   }
 
