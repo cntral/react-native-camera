@@ -13,7 +13,6 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.uimanager.UIManagerModule;
 import com.google.android.cameraview.CameraView;
 import com.google.zxing.Result;
 import org.reactnative.camera.events.*;
@@ -161,7 +160,9 @@ public class RNCameraViewHelper {
   public static void emitMountErrorEvent(ViewGroup view, String error) {
     CameraMountErrorEvent event = CameraMountErrorEvent.obtain(view.getId(), error);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Camera ready event
@@ -169,7 +170,9 @@ public class RNCameraViewHelper {
   public static void emitCameraReadyEvent(ViewGroup view) {
     CameraReadyEvent event = CameraReadyEvent.obtain(view.getId());
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Picture saved event
@@ -177,7 +180,9 @@ public class RNCameraViewHelper {
   public static void emitPictureSavedEvent(ViewGroup view, WritableMap response) {
     PictureSavedEvent event = PictureSavedEvent.obtain(view.getId(), response);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Picture taken event
@@ -185,7 +190,9 @@ public class RNCameraViewHelper {
   public static void emitPictureTakenEvent(ViewGroup view) {
     PictureTakenEvent event = PictureTakenEvent.obtain(view.getId());
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Face detection events
@@ -193,13 +200,17 @@ public class RNCameraViewHelper {
   public static void emitFacesDetectedEvent(ViewGroup view, WritableArray data) {
     FacesDetectedEvent event = FacesDetectedEvent.obtain(view.getId(), data);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   public static void emitFaceDetectionErrorEvent(ViewGroup view, RNFaceDetector faceDetector) {
     FaceDetectionErrorEvent event = FaceDetectionErrorEvent.obtain(view.getId(), faceDetector);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Barcode detection events
@@ -207,13 +218,17 @@ public class RNCameraViewHelper {
   public static void emitBarcodesDetectedEvent(ViewGroup view, WritableArray barcodes) {
     BarcodesDetectedEvent event = BarcodesDetectedEvent.obtain(view.getId(), barcodes);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   public static void emitBarcodeDetectionErrorEvent(ViewGroup view, RNBarcodeDetector barcodeDetector) {
     BarcodeDetectionErrorEvent event = BarcodeDetectionErrorEvent.obtain(view.getId(), barcodeDetector);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Bar code read event
@@ -221,7 +236,9 @@ public class RNCameraViewHelper {
   public static void emitBarCodeReadEvent(ViewGroup view, Result barCode, int width, int height) {
     BarCodeReadEvent event = BarCodeReadEvent.obtain(view.getId(), barCode, width,  height);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Text recognition event
@@ -229,7 +246,9 @@ public class RNCameraViewHelper {
   public static void emitTextRecognizedEvent(ViewGroup view, WritableArray data) {
     TextRecognizedEvent event = TextRecognizedEvent.obtain(view.getId(), data);
     ReactContext reactContext = (ReactContext) view.getContext();
-    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    com.facebook.react.uimanager.events.EventDispatcher eventDispatcher =
+        com.facebook.react.uimanager.UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
+    if (eventDispatcher != null) eventDispatcher.dispatchEvent(event);
   }
 
   // Utilities
