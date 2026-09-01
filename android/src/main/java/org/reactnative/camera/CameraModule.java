@@ -8,9 +8,6 @@ import android.widget.Toast;
 
 import com.facebook.react.bridge.*;
 import com.facebook.react.common.build.ReactBuildConfig;
-import com.facebook.react.uimanager.NativeViewHierarchyManager;
-import com.facebook.react.uimanager.UIBlock;
-import com.facebook.react.uimanager.UIManagerModule;
 import com.google.android.cameraview.AspectRatio;
 import com.google.zxing.BarcodeFormat;
 import org.reactnative.barcodedetector.BarcodeFormatUtils;
@@ -212,10 +209,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void pausePreview(final int viewTag) {
         final ReactApplicationContext context = getReactApplicationContext();
-        UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-        uiManager.addUIBlock(new UIBlock() {
+        FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
             @Override
-            public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+            public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
                 final RNCameraView cameraView;
                 
                 try {
@@ -233,10 +229,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void resumePreview(final int viewTag) {
         final ReactApplicationContext context = getReactApplicationContext();
-        UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-        uiManager.addUIBlock(new UIBlock() {
+        FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
             @Override
-            public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+            public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
                 final RNCameraView cameraView;
                 
                 try {
@@ -255,10 +250,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
   public void takePicture(final ReadableMap options, final int viewTag, final Promise promise) {
     final ReactApplicationContext context = getReactApplicationContext();
     final File cacheDirectory = mScopedContext.getCacheDirectory();
-    UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-    uiManager.addUIBlock(new UIBlock() {
+    FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
       @Override
-      public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+      public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
           RNCameraView cameraView = (RNCameraView) nativeViewHierarchyManager.resolveView(viewTag);
           try {
             if (cameraView.isCameraOpened()) {
@@ -277,11 +271,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
   public void record(final ReadableMap options, final int viewTag, final Promise promise) {
       final ReactApplicationContext context = getReactApplicationContext();
       final File cacheDirectory = mScopedContext.getCacheDirectory();
-      UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-
-      uiManager.addUIBlock(new UIBlock() {
+      FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
           @Override
-          public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
               final RNCameraView cameraView;
 
               try {
@@ -301,10 +293,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void stopRecording(final int viewTag) {
       final ReactApplicationContext context = getReactApplicationContext();
-      UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-      uiManager.addUIBlock(new UIBlock() {
+      FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
           @Override
-          public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
               final RNCameraView cameraView;
 
               try {
@@ -322,10 +313,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void getCameraParameters(final int viewTag, final Promise promise) {
     final ReactApplicationContext context = getReactApplicationContext();
-    UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-    uiManager.addUIBlock(new UIBlock() {
+    FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
       @Override
-      public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+      public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
         final RNCameraView cameraView;
 
         try {
@@ -349,10 +339,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void getSupportedRatios(final int viewTag, final Promise promise) {
       final ReactApplicationContext context = getReactApplicationContext();
-      UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-      uiManager.addUIBlock(new UIBlock() {
+      FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
           @Override
-          public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+          public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
               final RNCameraView cameraView;
               try {
                   cameraView = (RNCameraView) nativeViewHierarchyManager.resolveView(viewTag);
@@ -375,10 +364,9 @@ public class CameraModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getAvailablePictureSizes(final String ratio, final int viewTag, final Promise promise) {
         final ReactApplicationContext context = getReactApplicationContext();
-        UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-        uiManager.addUIBlock(new UIBlock() {
+        FabricUIBlocks.addUIBlock(context, new FabricUIBlocks.UIBlock() {
             @Override
-            public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+            public void execute(FabricUIBlocks.ViewResolver nativeViewHierarchyManager) {
                 final RNCameraView cameraView;
                 
                 try {

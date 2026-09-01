@@ -2,17 +2,6 @@ def safeExtGet(prop, fallback) {
     rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
-buildscript {
-  repositories {
-    google()
-    jcenter()
-  }
-
-  dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.1'
-  }
-}
-
 apply plugin: 'com.android.library'
 
 android {
@@ -60,7 +49,6 @@ android {
 
 repositories {
   google()
-  jcenter()
   mavenCentral()
   maven { url "https://jitpack.io" }
   maven {
