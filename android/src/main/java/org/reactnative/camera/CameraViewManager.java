@@ -43,7 +43,11 @@ public class CameraViewManager extends ViewGroupManager<RNCameraView> {
 
   @Override
   public void onDropViewInstance(RNCameraView view) {
-    view.stop();
+    // onHostDestroy() stops the camera, releases the detectors and - crucially - removes this view as a
+    // ReactContext lifecycle listener. React Navigation drops camera views without ever destroying the
+    // Activity, so with only stop() every camera screen ever opened stayed subscribed to host
+    // pause/resume for the life of the process (seen as onHostResume firing 2-3x per resume).
+    view.onHostDestroy();
     super.onDropViewInstance(view);
   }
 
