@@ -122,6 +122,10 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     private SurfaceTexture mPreviewTexture;
 
+    // Set once the preview has genuinely started with a surface attached, so onCameraOpened fires
+    // exactly once per camera open (and not again on every adjustCameraParameters() restart).
+    private boolean mCameraReadyDispatched = false;
+
     Camera1(Callback callback, PreviewImpl preview) {
         super(callback, preview);
         preview.setCallback(new PreviewImpl.Callback() {
@@ -149,7 +153,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             // returning false will result in invoking this method again
             return true;
         }
-        if (mPreview.isReady()) {
+        if (hasPreviewSurface()) {
             setUpPreview();
         }
         mShowingPreview = true;
@@ -202,11 +206,33 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         }
     }
 
+    // True once a preview surface is available to attach to the camera - either one injected via
+    // setPreviewTexture() or the TextureView's own SurfaceTexture.
+    private boolean hasPreviewSurface() {
+        return mPreviewTexture != null || mPreview.isReady();
+    }
+
     private void startCameraPreview() {
+        if (!hasPreviewSurface()) {
+            // No preview surface yet (it is still being created - common when the camera screen
+            // opens right after heavy work). Starting the preview now would run against nothing,
+            // never stream, and leave mIsPreviewActive lying, so takePicture() would then be
+            // silently rejected by the framework ("Cannot take picture without preview enabled")
+            // and hang. Leave the preview inactive instead: onSurfaceChanged() attaches the
+            // surface when it arrives and restarts the preview via adjustCameraParameters().
+            return;
+        }
         mCamera.startPreview();
         mIsPreviewActive = true;
         if (mIsScanning) {
             mCamera.setPreviewCallback(this);
+        }
+        if (!mCameraReadyDispatched) {
+            // Report the camera as ready only once the preview is genuinely running with a surface,
+            // not merely once the hardware has opened, so a capture button gated on this event is
+            // never tappable before a picture can actually be taken.
+            mCameraReadyDispatched = true;
+            mCallback.onCameraOpened();
         }
     }
 
@@ -661,6 +687,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         }
         try {
             mCamera = Camera.open(mCameraId);
+            mCameraReadyDispatched = false; // A fresh open gets a fresh camera-ready dispatch.
             mCameraParameters = mCamera.getParameters();
             // Supported preview sizes
             mPreviewSizes.clear();
@@ -678,7 +705,8 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             }
             adjustCameraParameters();
             mCamera.setDisplayOrientation(calcDisplayOrientation(mDisplayOrientation));
-            mCallback.onCameraOpened();
+            // onCameraOpened is dispatched from startCameraPreview() once the preview is genuinely
+            // running, not here - the hardware being open says nothing about a preview surface.
             return true;
         } catch (RuntimeException e) {
             return false;
@@ -768,6 +796,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             mCamera.release();
             mCamera = null;
             mPictureSize = null;
+            mCameraReadyDispatched = false;
             mCallback.onCameraClosed();
         }
     }
